@@ -87,3 +87,40 @@ SELECT last_name
 FROM actor
 GROUP BY last_name
 HAVING COUNT(*) = 1;
+------
+-------
+
+-- Challenge 3 Buisness Insights
+
+
+SELECT 
+    c.first_name,
+    c.last_name,
+    SUM(p.amount) AS total_paid
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id
+ORDER BY total_paid DESC
+LIMIT 10;
+SELECT 
+    c.first_name,
+    c.last_name,
+    COUNT(r.rental_id) AS total_rentals
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+GROUP BY c.customer_id
+ORDER BY total_rentals DESC
+LIMIT 5;
+SELECT COUNT(*) AS active_customers
+FROM customer
+WHERE active = 1;
+SELECT 
+    c.customer_id,
+    c.first_name,
+    c.last_name
+FROM customer c
+LEFT JOIN rental r ON c.customer_id = r.customer_id
+WHERE r.rental_id IS NULL;
+SELECT 
+    ROUND(SUM(amount) / COUNT(DISTINCT rental_id), 2) AS avg_payment_per_rental
+FROM payment;
